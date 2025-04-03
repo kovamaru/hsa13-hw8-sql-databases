@@ -1,0 +1,40 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql-hsa
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    command: --secure-file-priv=/var/lib/mysql-files
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - shared_data:/var/lib/mysql-files
+
+  data-loader:
+    container_name: data-loader
+    build: data-loader
+    depends_on:
+      - mysql
+    entrypoint: ["sh", "/app/entrypoint.sh"]
+    volumes:
+      - shared_data:/app/shared
+      - shared_data:/var/lib/mysql-files
+
+  app:
+    container_name: app-server
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "5001:8080"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+  shared_data:
