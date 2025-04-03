@@ -42,6 +42,7 @@ Result:
 ```
 idx_dob_btree | date_of_birth | BTREE
 ```
+![BTREE screenshot](screenshoots/index_btree.png)
 
 Run SELECT with index:
 ```bash
@@ -67,6 +68,8 @@ Result:
 ```
 idx_dob_hash | date_of_birth | BTREE (InnoDB always stores as BTREE)
 ```
+
+![HASH screenshot](screenshoots/index_hash.png)
 
 Run SELECT with index:
 ```bash
